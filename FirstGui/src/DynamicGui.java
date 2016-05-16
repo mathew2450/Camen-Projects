@@ -36,22 +36,22 @@ ArrayList<JFormattedTextField> hours3= new ArrayList<JFormattedTextField>();
 ArrayList<JFormattedTextField> results= new ArrayList<JFormattedTextField>();
 ArrayList<Client> clients= new ArrayList<Client>();
 Dimension x = new Dimension(2500,2000);
-//GroupLayout layout = new GroupLayout(panel);
+GroupLayout layout = new GroupLayout(panel);
 ArrayList<GroupLayout.ParallelGroup> pGroups = new ArrayList<GroupLayout.ParallelGroup>();
 ArrayList<GroupLayout.SequentialGroup> sGroups = new ArrayList<GroupLayout.SequentialGroup>();
 
 public DynamicGui()
 {
  super("Floater Hour Calculator");
- panel.setLayout(new FlowLayout());
- //panel.setLayout(layout);
+ //panel.setLayout(new FlowLayout());
+ panel.setLayout(layout);
 
  // Turn on automatically adding gaps between components
- //layout.setAutoCreateGaps(true);
+ layout.setAutoCreateGaps(true);
 
  // Turn on automatically creating gaps between components that touch
  // the edge of the container and the container.
- //layout.setAutoCreateContainerGaps(true);
+ layout.setAutoCreateContainerGaps(true);
  
  add(panel,BorderLayout.CENTER); 
  JButton button=new JButton("Add Client");
@@ -71,11 +71,11 @@ public DynamicGui()
 
 public void actionPerformed(ActionEvent evt)
 {	clientNum++;
-/*GroupLayout.ParallelGroup hGroup = layout.createParallelGroup();
+GroupLayout.ParallelGroup hGroup = layout.createParallelGroup();
  pGroups.add(hGroup);
 GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
- sGroups.add(vGroup);*/
- //hGroups.add(clientNum-1, hGroup);
+ sGroups.add(vGroup);
+  //hGroups.add(clientNum-1, hGroup);
  panel.add(new JLabel("Client Name"));
  clientNames.add(clientNum-1, new JFormattedTextField("First Name, Last Name"));
  panel.add(clientNames.get(clientNum-1));
@@ -120,10 +120,10 @@ GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 		 .addComponent(names1.get(clientNum-1)).addComponent(hours1.get(clientNum-1)).addComponent(names2.get(clientNum-1)).addComponent(hours2.get(clientNum-1))
 		 .addComponent(names3.get(clientNum-1)).addComponent(hours3.get(clientNum-1)).addComponent(results.get(clientNum-1)));
  layout.setVerticalGroup(vGroup);*/
- /*hGroup.addGroup(layout.createSequentialGroup().addComponent(clientNames.get(clientNum-1)));
+  hGroup.addGroup(layout.createSequentialGroup().addComponent(clientNames.get(clientNum-1)));
 		 layout.setHorizontalGroup(hGroup);
  vGroup.addGroup(layout.createParallelGroup().addComponent(clientNames.get(clientNum-1)));
-		 layout.setVerticalGroup(vGroup);*/
+		 layout.setVerticalGroup(vGroup);
  panel.revalidate(); 
 }
 
