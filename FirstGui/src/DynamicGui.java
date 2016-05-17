@@ -3,13 +3,23 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
- 
+
+
 @SuppressWarnings("serial")
 public class DynamicGui extends JPanel{
-	int clientNum = 0;
+	int clientNum = 0, floaterNum = 0;
 	JPanel mainPanel = new JPanel();
 	 ArrayList<JCheckBox> boxes = new ArrayList<JCheckBox>();
 	 ArrayList<JFormattedTextField> times= new ArrayList<JFormattedTextField>();
@@ -21,6 +31,8 @@ public class DynamicGui extends JPanel{
 	 ArrayList<JFormattedTextField> hours2= new ArrayList<JFormattedTextField>();
 	 ArrayList<JFormattedTextField> hours3= new ArrayList<JFormattedTextField>();
 	 ArrayList<JFormattedTextField> results= new ArrayList<JFormattedTextField>();
+	 ArrayList<String> floaters = new ArrayList<String>();  
+	 ArrayList<Integer> floaterhrs = new ArrayList<Integer>();
 	 Action calc;
 	 Action newClient;
     public DynamicGui() {
@@ -71,7 +83,8 @@ public class DynamicGui extends JPanel{
         border.setTitleColor(Color.black);
         minipanel.setBorder(border);
         minipanel.add(new JLabel("Client Name"));
-        clientNames.add(clientNum, new JFormattedTextField("FirstNameLastName"));
+        //removeclientnum
+        clientNames.add(clientNum, new JFormattedTextField("FirstNameLastName"+clientNum));
         minipanel.add(clientNames.get(clientNum));	
         boxes.add(clientNum, new JCheckBox("Present |"));
         minipanel.add(boxes.get(clientNum));
@@ -82,7 +95,8 @@ public class DynamicGui extends JPanel{
         names1.add(clientNum, new JFormattedTextField("FirstNameLastName"));
         minipanel.add(names1.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
-        hours1.add(clientNum, new JFormattedTextField("0"));
+        //remove hours
+        hours1.add(clientNum, new JFormattedTextField("6"));
         minipanel.add(hours1.get(clientNum));
         names2.add(clientNum, new JFormattedTextField("FirstNameLastName"));
         minipanel.add(names2.get(clientNum));
@@ -119,12 +133,26 @@ public class DynamicGui extends JPanel{
     }
     
 public class Calc extends AbstractAction{
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {    
+    	Scanner fileScanner;
+		try {
+			fileScanner = new Scanner(new File("floaters.txt"));
+			
+		
+    	while (fileScanner.hasNext()){
+    	   floaters.add(fileScanner.next()+" "+fileScanner.next());
+    	   floaterhrs.add(fileScanner.nextInt()); 	
+    	   floaterNum++;
+    	}
+    	} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		int totalResults = 0; 
     	for(int i = 0; i<clientNum; i++){
     		
     		//System.out.println(boxes.get(i).isSelected());
     		if(boxes.get(i).isSelected()==false)
-    			
     			results.get(i).setText("0");
     		else
     		{
@@ -132,11 +160,91 @@ public class Calc extends AbstractAction{
     			int hrs2 = Integer.parseInt(hours2.get(i).getText(), 10);
     			int hrs3 = Integer.parseInt(hours3.get(i).getText(), 10);
     			int hoursLeft = 8 - (hrs1 + hrs2 + hrs3);
+    			totalResults += hoursLeft;
     			String hoursUsed = "" + (hoursLeft);
     			results.get(i).setText(hoursUsed);   			
     		}
     		
     	}
+    	try {
+    	totalResults = totalResults / (floaterNum);
+    	int temp = totalResults;
+    	// The name of the file to open.
+    	String fileName = "Floater_Hours.txt";
+    	// Assume default encoding.
+    	FileWriter fileWriter = new FileWriter(fileName);
+    	FileWriter fileSaver = new FileWriter("Client_List.txt");
+
+    	// Always wrap FileWriter in BufferedWriter.
+    	BufferedWriter bufferedWriter =
+    	new BufferedWriter(fileWriter);
+    	BufferedWriter bufferedWriter2 =
+    	new BufferedWriter(fileSaver);
+    	String here;
+    	for(int j = 0; j<clientNum; j++){
+    		if(boxes.get(j).isSelected()==true)
+    			here = "true";
+    		else
+    			here = "false";
+    		bufferedWriter2.write(clientNames.get(j).getText() + " |Present: " + here +
+    						"| Between: " + times.get(j).getText() + "| One To One Workers: " + names1.get(j).getText() 
+    						+ " Worked: " + hours1.get(j).getText() + " hours |" + names2.get(j).getText() 
+    						+ " Worked: " + hours2.get(j).getText() + " hours |" + names3.get(j).getText() 
+    						+ " Worked: " + hours3.get(j).getText() + " hours |" + " " + results.get(j).getText() 
+    						+ " hours left over for floaters");
+    		bufferedWriter2.newLine();
+    		bufferedWriter2.newLine();
+    	}
+    	bufferedWriter2.close();
+
+    	// Note that write() does not automatically
+    	// append a newline character.
+    	bufferedWriter.write("Floater Hours: " + totalResults + " hours each");
+    	bufferedWriter.newLine();
+    	for(int i = 0; i<floaters.size(); i++){
+    		bufferedWriter.write(floaters.get(i));
+    		bufferedWriter.newLine();
+    		for(int j = 0; j<clientNum; j++){
+    		while((results.get(j).getText()) == "0"){
+    				j++;}	
+    		
+    		if(temp == 0){
+    				j = clientNum;
+    				temp = totalResults;}
+    		else{
+    			if(temp>=Integer.parseInt(results.get(j).getText())){
+    				temp-=Integer.parseInt(results.get(j).getText());
+    				bufferedWriter.write("     " + clientNames.get(j).getText() + " Hours: " + results.get(j).getText() +
+    						" Between: " + times.get(j).getText());
+    				bufferedWriter.newLine();
+    				results.get(j).setText("0");
+    				if(temp == 0){
+        				j = clientNum;
+        				temp = totalResults;}
+    			}
+    			
+    			else{
+    				bufferedWriter.write("     " + clientNames.get(j).getText() + " Hours: " + temp +
+    						" Between: " + times.get(j).getText());
+    				bufferedWriter.newLine();
+    				temp = Integer.parseInt(results.get(j).getText()) - temp;
+    				results.get(j).setText("" + temp);
+    				temp=totalResults;
+    				j = clientNum;
+    			}
+    		}
+    		}
+    	}
+    	
+    		
+    		// Always close files.
+    		bufferedWriter.close();}
+    	catch(IOException ex) {
+    		ex.printStackTrace();
+    		            // Or we could just do this:
+    		            // ex.printStackTrace();
+    		        }
+    	
     }
     }
 
