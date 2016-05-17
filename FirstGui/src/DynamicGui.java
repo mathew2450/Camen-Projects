@@ -3,8 +3,6 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -25,14 +23,12 @@ public class DynamicGui extends JPanel{
 	 ArrayList<JFormattedTextField> results= new ArrayList<JFormattedTextField>();
 	 Action calc;
 	 Action newClient;
-	 //Action checkbox;
     public DynamicGui() {
     	
         super(new BorderLayout());
         
         calc = new Calc();
         newClient = new NewClient();
-        //checkbox = new CheckBox();
 
         
         JButton addClient = new JButton(newClient);
@@ -42,10 +38,11 @@ public class DynamicGui extends JPanel{
         BoxLayout layout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
         mainPanel.setLayout(layout);
         //mainPanel.add(createYAlignmentExample());
-        Dimension size = new Dimension(2000, 5000);
-        mainPanel.setMaximumSize(size);
-        mainPanel.setMinimumSize(size);
-        mainPanel.setPreferredSize(size);
+        Dimension maxsize = new Dimension(2000, 10000);
+        Dimension minsize = new Dimension(2000, 50);
+        mainPanel.setMaximumSize(maxsize);
+        mainPanel.setMinimumSize(minsize);
+        mainPanel.setPreferredSize(maxsize);
         JScrollPane scrollPane = new JScrollPane(mainPanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -56,7 +53,7 @@ public class DynamicGui extends JPanel{
         
     }
  
-    protected JPanel createYAlignmentExample() {
+    protected JPanel createClientInfoPanel() {
         JPanel pane = new JPanel();
         String title = "Client " + (clientNum+1);
  
@@ -74,25 +71,25 @@ public class DynamicGui extends JPanel{
         border.setTitleColor(Color.black);
         minipanel.setBorder(border);
         minipanel.add(new JLabel("Client Name"));
-        clientNames.add(clientNum, new JFormattedTextField("First Name, Last Name"));
+        clientNames.add(clientNum, new JFormattedTextField("FirstNameLastName"));
         minipanel.add(clientNames.get(clientNum));	
         boxes.add(clientNum, new JCheckBox("Present |"));
         minipanel.add(boxes.get(clientNum));
-        minipanel.add(new JLabel("Time in/out:"));
-        times.add(clientNum, new JFormattedTextField("1/4hrs"));
+        minipanel.add(new JLabel("Time in-out:"));
+        times.add(clientNum, new JFormattedTextField("9:30-2:30"));
         minipanel.add(times.get(clientNum));
         minipanel.add(new JLabel("One To One Workers:"));
-        names1.add(clientNum, new JFormattedTextField("First Name, Last Name"));
+        names1.add(clientNum, new JFormattedTextField("FirstNameLastName"));
         minipanel.add(names1.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
         hours1.add(clientNum, new JFormattedTextField("0"));
         minipanel.add(hours1.get(clientNum));
-        names2.add(clientNum, new JFormattedTextField("First Name, Last Name"));
+        names2.add(clientNum, new JFormattedTextField("FirstNameLastName"));
         minipanel.add(names2.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
         hours2.add(clientNum, new JFormattedTextField("0"));
         minipanel.add(hours2.get(clientNum));
-        names3.add(clientNum, new JFormattedTextField("First Name, Last Name"));
+        names3.add(clientNum, new JFormattedTextField("FirstNameLastName"));
         minipanel.add(names3.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
         hours3.add(clientNum, new JFormattedTextField("0"));
@@ -106,7 +103,7 @@ public class DynamicGui extends JPanel{
         pane.setLayout(new BoxLayout(pane, BoxLayout.X_AXIS));
         pane.setAlignmentX(LEFT_ALIGNMENT);
         pane.add(minipanel, pane);
-
+        pane.revalidate();
         return pane;
     }
  
@@ -147,7 +144,7 @@ public class Calc extends AbstractAction{
     
 public class NewClient extends AbstractAction{
     public void actionPerformed(ActionEvent e) {
-    	mainPanel.add(createYAlignmentExample());
+    	mainPanel.add(createClientInfoPanel());
     	mainPanel.revalidate();
     	clientNum++;
     }
