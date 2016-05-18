@@ -84,7 +84,7 @@ public class DynamicGui extends JPanel{
         minipanel.setBorder(border);
         minipanel.add(new JLabel("Client Name"));
         //removeclientnum
-        clientNames.add(clientNum, new JFormattedTextField("FirstNameLastName"+clientNum));
+        clientNames.add(clientNum, new JFormattedTextField("FirstName LastName"+clientNum));
         minipanel.add(clientNames.get(clientNum));	
         boxes.add(clientNum, new JCheckBox("Present |"));
         minipanel.add(boxes.get(clientNum));
@@ -92,18 +92,18 @@ public class DynamicGui extends JPanel{
         times.add(clientNum, new JFormattedTextField("9:30-2:30"));
         minipanel.add(times.get(clientNum));
         minipanel.add(new JLabel("One To One Workers:"));
-        names1.add(clientNum, new JFormattedTextField("FirstNameLastName"));
+        names1.add(clientNum, new JFormattedTextField("FirstName LastName"));
         minipanel.add(names1.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
         //remove hours
         hours1.add(clientNum, new JFormattedTextField("6"));
         minipanel.add(hours1.get(clientNum));
-        names2.add(clientNum, new JFormattedTextField("FirstNameLastName"));
+        names2.add(clientNum, new JFormattedTextField("FirstName LastName"));
         minipanel.add(names2.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
         hours2.add(clientNum, new JFormattedTextField("0"));
         minipanel.add(hours2.get(clientNum));
-        names3.add(clientNum, new JFormattedTextField("FirstNameLastName"));
+        names3.add(clientNum, new JFormattedTextField("FirstName LastName"));
         minipanel.add(names3.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
         hours3.add(clientNum, new JFormattedTextField("0"));
@@ -181,17 +181,19 @@ public class Calc extends AbstractAction{
     	BufferedWriter bufferedWriter2 =
     	new BufferedWriter(fileSaver);
     	String here;
+    	bufferedWriter2.write("FirstName LastName Present Time One2OneFirst Last Hours One2OneFirst Last Hours One2OneFirst Last Hours FloaterHours");
     	for(int j = 0; j<clientNum; j++){
     		if(boxes.get(j).isSelected()==true)
     			here = "true";
     		else
     			here = "false";
-    		bufferedWriter2.write(clientNames.get(j).getText() + " |Present: " + here +
-    						"| Between: " + times.get(j).getText() + "| One To One Workers: " + names1.get(j).getText() 
-    						+ " Worked: " + hours1.get(j).getText() + " hours |" + names2.get(j).getText() 
-    						+ " Worked: " + hours2.get(j).getText() + " hours |" + names3.get(j).getText() 
-    						+ " Worked: " + hours3.get(j).getText() + " hours |" + " " + results.get(j).getText() 
-    						+ " hours left over for floaters");
+    		bufferedWriter2.newLine();
+    		bufferedWriter2.write(clientNames.get(j).getText() + " " + here +
+    						" " + times.get(j).getText() + " " + names1.get(j).getText() 
+    						+ " " + hours1.get(j).getText() + " " + names2.get(j).getText() 
+    						+ " " + hours2.get(j).getText() + " " + names3.get(j).getText() 
+    						+ " " + hours3.get(j).getText() + " " + results.get(j).getText() 
+    						+ " ");
     		bufferedWriter2.newLine();
     		bufferedWriter2.newLine();
     	}
@@ -205,14 +207,14 @@ public class Calc extends AbstractAction{
     		bufferedWriter.write(floaters.get(i));
     		bufferedWriter.newLine();
     		for(int j = 0; j<clientNum; j++){
-    		while((results.get(j).getText()) == "0"){
+    		while(Integer.parseInt(results.get(j).getText()) == 0){
     				j++;}	
     		
     		if(temp == 0){
     				j = clientNum;
     				temp = totalResults;}
     		else{
-    			if(temp>=Integer.parseInt(results.get(j).getText())){
+    			if(temp>=Integer.parseInt(results.get(j).getText()) && Integer.parseInt(results.get(j).getText()) > 0){
     				temp-=Integer.parseInt(results.get(j).getText());
     				bufferedWriter.write("     " + clientNames.get(j).getText() + " Hours: " + results.get(j).getText() +
     						" Between: " + times.get(j).getText());

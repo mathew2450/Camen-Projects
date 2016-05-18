@@ -1,22 +1,13 @@
 Floater Hours: 6 hours each
 Mathew Cross
-     FirstNameLastName0 Hours: 2 Between: 9:30-2:30
-     FirstNameLastName1 Hours: 2 Between: 9:30-2:30
-     FirstNameLastName2 Hours: 2 Between: 9:30-2:30
+     FirstName LastName0 Hours: 2 Between: 9:30-2:30
+     FirstName LastName1 Hours: 2 Between: 9:30-2:30
+     FirstName LastName2 Hours: 2 Between: 9:30-2:30
 Chris Gates
-     FirstNameLastName0 Hours: 0 Between: 9:30-2:30
-     FirstNameLastName1 Hours: 0 Between: 9:30-2:30
-     FirstNameLastName2 Hours: 0 Between: 9:30-2:30
-     FirstNameLastName3 Hours: 2 Between: 9:30-2:30
-     FirstNameLastName4 Hours: 2 Between: 9:30-2:30
-     FirstNameLastName5 Hours: 2 Between: 9:30-2:30
+     FirstName LastName3 Hours: 2 Between: 9:30-2:30
+     FirstName LastName4 Hours: 2 Between: 9:30-2:30
+     FirstName LastName5 Hours: 2 Between: 9:30-2:30
 Nathan Cross
-     FirstNameLastName0 Hours: 0 Between: 9:30-2:30
-     FirstNameLastName1 Hours: 0 Between: 9:30-2:30
-     FirstNameLastName2 Hours: 0 Between: 9:30-2:30
-     FirstNameLastName3 Hours: 0 Between: 9:30-2:30
-     FirstNameLastName4 Hours: 0 Between: 9:30-2:30
-     FirstNameLastName5 Hours: 0 Between: 9:30-2:30
-     FirstNameLastName6 Hours: 2 Between: 9:30-2:30
-     FirstNameLastName7 Hours: 2 Between: 9:30-2:30
-     FirstNameLastName8 Hours: 2 Between: 9:30-2:30
+     FirstName LastName6 Hours: 2 Between: 9:30-2:30
+     FirstName LastName7 Hours: 2 Between: 9:30-2:30
+     FirstName LastName8 Hours: 2 Between: 9:30-2:30

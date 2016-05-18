@@ -1,20 +1,33 @@
-FirstNameLastName0 |Present: true| Between: 9:30-2:30| One To One Workers: FirstNameLastName Worked: 6 hours |FirstNameLastName Worked: 0 hours |FirstNameLastName Worked: 0 hours | 2 hours left over for floaters
+FirstName LastName Present Time One2OneFirst Last Hours One2OneFirst Last Hours One2OneFirst Last Hours FloaterHours
+FirstName LastName0 true 9:30-2:30 FirstName LastName 6 FirstName LastName 0 FirstName LastName 0 2 
 
-FirstNameLastName1 |Present: true| Between: 9:30-2:30| One To One Workers: FirstNameLastName Worked: 6 hours |FirstNameLastName Worked: 0 hours |FirstNameLastName Worked: 0 hours | 2 hours left over for floaters
 
-FirstNameLastName2 |Present: true| Between: 9:30-2:30| One To One Workers: FirstNameLastName Worked: 6 hours |FirstNameLastName Worked: 0 hours |FirstNameLastName Worked: 0 hours | 2 hours left over for floaters
+FirstName LastName1 true 9:30-2:30 FirstName LastName 6 FirstName LastName 0 FirstName LastName 0 2 
 
-FirstNameLastName3 |Present: true| Between: 9:30-2:30| One To One Workers: FirstNameLastName Worked: 6 hours |FirstNameLastName Worked: 0 hours |FirstNameLastName Worked: 0 hours | 2 hours left over for floaters
 
-FirstNameLastName4 |Present: true| Between: 9:30-2:30| One To One Workers: FirstNameLastName Worked: 6 hours |FirstNameLastName Worked: 0 hours |FirstNameLastName Worked: 0 hours | 2 hours left over for floaters
+FirstName LastName2 true 9:30-2:30 FirstName LastName 6 FirstName LastName 0 FirstName LastName 0 2 
 
-FirstNameLastName5 |Present: true| Between: 9:30-2:30| One To One Workers: FirstNameLastName Worked: 6 hours |FirstNameLastName Worked: 0 hours |FirstNameLastName Worked: 0 hours | 2 hours left over for floaters
 
-FirstNameLastName6 |Present: true| Between: 9:30-2:30| One To One Workers: FirstNameLastName Worked: 6 hours |FirstNameLastName Worked: 0 hours |FirstNameLastName Worked: 0 hours | 2 hours left over for floaters
+FirstName LastName3 true 9:30-2:30 FirstName LastName 6 FirstName LastName 0 FirstName LastName 0 2 
 
-FirstNameLastName7 |Present: true| Between: 9:30-2:30| One To One Workers: FirstNameLastName Worked: 6 hours |FirstNameLastName Worked: 0 hours |FirstNameLastName Worked: 0 hours | 2 hours left over for floaters
 
-FirstNameLastName8 |Present: true| Between: 9:30-2:30| One To One Workers: FirstNameLastName Worked: 6 hours |FirstNameLastName Worked: 0 hours |FirstNameLastName Worked: 0 hours | 2 hours left over for floaters
+FirstName LastName4 true 9:30-2:30 FirstName LastName 6 FirstName LastName 0 FirstName LastName 0 2 
 
-FirstNameLastName9 |Present: true| Between: 9:30-2:30| One To One Workers: FirstNameLastName Worked: 6 hours |FirstNameLastName Worked: 0 hours |FirstNameLastName Worked: 0 hours | 2 hours left over for floaters
+
+FirstName LastName5 true 9:30-2:30 FirstName LastName 6 FirstName LastName 0 FirstName LastName 0 2 
+
+
+FirstName LastName6 true 9:30-2:30 FirstName LastName 6 FirstName LastName 0 FirstName LastName 0 2 
+
+
+FirstName LastName7 true 9:30-2:30 FirstName LastName 6 FirstName LastName 0 FirstName LastName 0 2 
+
+
+FirstName LastName8 true 9:30-2:30 FirstName LastName 6 FirstName LastName 0 FirstName LastName 0 2 
+
+
+FirstName LastName9 true 9:30-2:30 FirstName LastName 6 FirstName LastName 0 FirstName LastName 0 2 
+
+
+FirstName LastName10 false 9:30-2:30 FirstName LastName 6 FirstName LastName 0 FirstName LastName 0 0 
 
