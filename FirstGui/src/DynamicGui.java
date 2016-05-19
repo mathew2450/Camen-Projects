@@ -3,16 +3,14 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
@@ -134,8 +132,12 @@ public class DynamicGui extends JPanel{
 public class Calc extends AbstractAction{
     public void actionPerformed(ActionEvent e) {    
     	Scanner fileScanner;
+    	//InputStream input = DynamicGui.class.getResourceAsStream("/floaters.txt");
+    	ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    	InputStream input = classLoader.getResourceAsStream("floaters.txt");
 		try {
-			fileScanner = new Scanner(new File("floaters.txt"));
+			
+			fileScanner = new Scanner(new InputStreamReader(input, "UTF-8"));
 			
 		
     	while (fileScanner.hasNext()){
@@ -143,7 +145,7 @@ public class Calc extends AbstractAction{
     	   floaterhrs.add(fileScanner.nextInt()); 	
     	   floaterNum++;
     	}
-    	} catch (FileNotFoundException e1) {
+    	} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}

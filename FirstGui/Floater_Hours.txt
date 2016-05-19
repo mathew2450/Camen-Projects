@@ -1,4 +1,5 @@
-Not Enough Hours for Floaters (14) More Hours are Needed.
-Chris Gates
-     FirstName LastName0 Hours: 2 Between: 9:30-2:30
+Not Enough Hours for Floaters (0) More Hours are Needed.
+Christopher Gates
+     FirstName LastName0 Hours: 8 Between: 9:30-2:30
 Michael Dominic
+     FirstName LastName1 Hours: 8 Between: 9:30-2:30
