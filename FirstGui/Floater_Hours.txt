@@ -1,13 +1,4 @@
-Floater Hours: 6 hours each
-Mathew Cross
-     FirstName LastName0 Hours: 2 Between: 9:30-2:30
-     FirstName LastName1 Hours: 2 Between: 9:30-2:30
-     FirstName LastName2 Hours: 2 Between: 9:30-2:30
+Not Enough Hours for Floaters (14) More Hours are Needed.
 Chris Gates
-     FirstName LastName3 Hours: 2 Between: 9:30-2:30
-     FirstName LastName4 Hours: 2 Between: 9:30-2:30
-     FirstName LastName5 Hours: 2 Between: 9:30-2:30
-Nathan Cross
-     FirstName LastName6 Hours: 2 Between: 9:30-2:30
-     FirstName LastName7 Hours: 2 Between: 9:30-2:30
-     FirstName LastName8 Hours: 2 Between: 9:30-2:30
+     FirstName LastName0 Hours: 2 Between: 9:30-2:30
+Michael Dominic

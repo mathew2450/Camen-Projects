@@ -95,8 +95,7 @@ public class DynamicGui extends JPanel{
         names1.add(clientNum, new JFormattedTextField("FirstName LastName"));
         minipanel.add(names1.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
-        //remove hours
-        hours1.add(clientNum, new JFormattedTextField("6"));
+        hours1.add(clientNum, new JFormattedTextField("0"));
         minipanel.add(hours1.get(clientNum));
         names2.add(clientNum, new JFormattedTextField("FirstName LastName"));
         minipanel.add(names2.get(clientNum));
@@ -167,8 +166,12 @@ public class Calc extends AbstractAction{
     		
     	}
     	try {
-    	totalResults = totalResults / (floaterNum);
-    	int temp = totalResults;
+    		int totalHrs = 0, hoursNeeded = 0;
+    		for(int i = 0; i<floaterNum; i++)
+    			totalHrs += floaterhrs.get(i);
+    	if(totalResults < totalHrs )
+    			hoursNeeded = totalHrs - totalResults;
+    	//int temp = totalResults;
     	// The name of the file to open.
     	String fileName = "Floater_Hours.txt";
     	// Assume default encoding.
@@ -197,22 +200,23 @@ public class Calc extends AbstractAction{
     		bufferedWriter2.newLine();
     		bufferedWriter2.newLine();
     	}
+    	
     	bufferedWriter2.close();
 
     	// Note that write() does not automatically
     	// append a newline character.
-    	bufferedWriter.write("Floater Hours: " + totalResults + " hours each");
+    	bufferedWriter.write("Not Enough Hours for Floaters (" + hoursNeeded + ") More Hours are Needed.");
     	bufferedWriter.newLine();
     	for(int i = 0; i<floaters.size(); i++){
+    		int temp = floaterhrs.get(i);
     		bufferedWriter.write(floaters.get(i));
     		bufferedWriter.newLine();
-    		for(int j = 0; j<clientNum; j++){
-    		while(Integer.parseInt(results.get(j).getText()) == 0){
-    				j++;}	
-    		
+    		for(int j = 0; j<clientNum; j++){	
+    			
+    	if(Integer.parseInt(results.get(j).getText()) != 0){	
     		if(temp == 0){
     				j = clientNum;
-    				temp = totalResults;}
+    				}
     		else{
     			if(temp>=Integer.parseInt(results.get(j).getText()) && Integer.parseInt(results.get(j).getText()) > 0){
     				temp-=Integer.parseInt(results.get(j).getText());
@@ -222,7 +226,7 @@ public class Calc extends AbstractAction{
     				results.get(j).setText("0");
     				if(temp == 0){
         				j = clientNum;
-        				temp = totalResults;}
+        				temp = floaterhrs.get(i);}
     			}
     			
     			else{
@@ -231,10 +235,11 @@ public class Calc extends AbstractAction{
     				bufferedWriter.newLine();
     				temp = Integer.parseInt(results.get(j).getText()) - temp;
     				results.get(j).setText("" + temp);
-    				temp=totalResults;
+    				temp=floaterhrs.get(i);
     				j = clientNum;
     			}
     		}
+    	}
     		}
     	}
     	
