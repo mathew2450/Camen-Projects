@@ -1,5 +1,15 @@
-Not Enough Hours for Floaters (0) More Hours are Needed.
-Christopher Gates
-     FirstName LastName0 Hours: 8 Between: 9:30-2:30
-Michael Dominic
-     FirstName LastName1 Hours: 8 Between: 9:30-2:30
+
+Christopher Gates 20 10:30-3:30
+	Sally Smith for 16 quater-hours today! between 10:30 - 14:30
+Mathew Cross 36 8:30-5:30
+	Sally Smith for 16 quater-hours today between 9:30 - 14:30
+	FirstName LastName1 for 11 quater-hours today! between 13:45 - 14:30
+Nathan Cross 16 6:45-10:45
+	FirstName LastName1 for 7 quater-hours today between 9:30 - 10:45
+John Smith 8 10:30-12:30
+	FirstName LastName1 for 8 quater-hours today between 9:30 - 14:30
+
+There are 72 quater-hours left to be scheduled
+	There are 8 quater-hours left for FirstName LastName1
+	There are 32 quater-hours left for FirstName LastName2
+	There are 32 quater-hours left for FirstName LastName3
