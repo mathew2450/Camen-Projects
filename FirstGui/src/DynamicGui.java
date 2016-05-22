@@ -94,22 +94,22 @@ public class DynamicGui extends JPanel{
         names1.add(clientNum, new JFormattedTextField("FirstName LastName"));
         minipanel.add(names1.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
-        hours1.add(clientNum, new JFormattedTextField("0"));
+        hours1.add(clientNum, new JFormattedTextField("9:30-2:30"));
         minipanel.add(hours1.get(clientNum));
         names2.add(clientNum, new JFormattedTextField("FirstName LastName"));
         minipanel.add(names2.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
-        hours2.add(clientNum, new JFormattedTextField("0"));
+        hours2.add(clientNum, new JFormattedTextField("12:30-12:30"));
         minipanel.add(hours2.get(clientNum));
         names3.add(clientNum, new JFormattedTextField("FirstName LastName"));
         minipanel.add(names3.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
-        hours3.add(clientNum, new JFormattedTextField("0"));
+        hours3.add(clientNum, new JFormattedTextField("12:30-12:30"));
         minipanel.add(hours3.get(clientNum));
-        minipanel.add(new JLabel("Hours Left For Billing:"));
+        //minipanel.add(new JLabel("Hours Left For Billing:"));
         results.add(clientNum, new JFormattedTextField("0"));
         results.get(clientNum).setEditable(false);
-        minipanel.add(results.get(clientNum));
+        //minipanel.add(results.get(clientNum));
    
         pane.setBorder(BorderFactory.createTitledBorder(title));
         pane.setLayout(new BoxLayout(pane, BoxLayout.X_AXIS));
@@ -148,12 +148,13 @@ public class Calc extends AbstractAction{
     			results.get(i).setText("0");
     		else
     		{
-    			int hrs1 = Integer.parseInt(hours1.get(i).getText(), 10);
-    			int hrs2 = Integer.parseInt(hours2.get(i).getText(), 10);
-    			int hrs3 = Integer.parseInt(hours3.get(i).getText(), 10);
-    			int hoursLeft = 32 - ((hrs1 + hrs2 + hrs3)*4);
+    			int hrs1 = calcHours(hours1.get(i).getText());
+    			int hrs2 = calcHours(hours2.get(i).getText());
+    			int hrs3 = calcHours(hours3.get(i).getText());
+    			int hoursLeft = 32 - (hrs1 + hrs2 + hrs3);
     			totalResults += hoursLeft;
     			String hoursUsed = "" + (hoursLeft);
+    			//System.out.println(hoursLeft);
     			results.get(i).setText(hoursUsed);   			
     		}
     		
@@ -243,10 +244,10 @@ public class Calc extends AbstractAction{
     		else{
     			
     			if(clientStart.isLessThan(floaterStart) && clientEnd.isLessThan(floaterStart))
-    				;//System.out.println(clientNames.get(j).getText() + " starts and leaves before floater");
+    				System.out.println(clientNames.get(j).getText() + " starts and leaves before floater");
     			
     			else if(clientStart.isMoreThan(floaterEnd) && clientEnd.isMoreThan(floaterEnd))
-    				;//System.out.println(clientNames.get(j).getText() + " arrives after floater");
+    				System.out.println(clientNames.get(j).getText() + " arrives after floater");
     			
     			else if(clientStart.isLessThan(floaterStart) && clientEnd.isMoreThan(floaterStart) && clientEnd.isLessThan(floaterEnd)){
     				hrsAvail = subTimes(floaterStart, clientEnd);
@@ -262,9 +263,9 @@ public class Calc extends AbstractAction{
     				}
     				floaterStart = floaterArray.get(1);
     				results.get(j).setText("" + tempResults);
-    				//System.out.println();
-    				//for(int l = 0; l < floaterArray.size(); l++)
-    					//System.out.print(floaterArray.get(l).time + " ");
+    				System.out.println();
+    				for(int l = 0; l < floaterArray.size(); l++)
+    					System.out.print(floaterArray.get(l).time + "^ ");
     			}
     			
     			else if(clientStart.isLessThan(floaterEnd) && clientEnd.isMoreThan(floaterEnd) && clientStart.isMoreThan(floaterStart)){
@@ -274,18 +275,18 @@ public class Calc extends AbstractAction{
     				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today between "  + 
     						clientStart.timeToString(false) + " - " + floaterEnd.timeToString(false));
     				bufferedWriter.newLine();
-    				//for(int l = 0; l < floaterArray.size(); l++)
-    					//System.out.print(floaterArray.get(l).time + " ");
+    				
     				int length = floaterArray.size() - 1;
     				int tempResults = Integer.parseInt(results.get(j).getText());
     				for(int k = length; k > (length - hrsAvail); k--){
     					floaterArray.remove(floaterArray.size()-1);
     					tempResults--;
     				}
-    				floaterEnd = floaterArray.get(floaterArray.size()-2);
+    				floaterEnd = floaterArray.get(floaterArray.size()-1);
     				results.get(j).setText("" + tempResults);
-    				//System.out.println();
-    				
+    				System.out.println();
+    				for(int l = 0; l < floaterArray.size(); l++)
+    					System.out.print(floaterArray.get(l).time + "* ");
     			}
     			
     			else if(clientStart.isMoreThan(floaterStart) && clientEnd.isLessThan(floaterEnd)){
@@ -295,11 +296,10 @@ public class Calc extends AbstractAction{
     				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today between " +  
     						clientStart.timeToString(false) + " - " + clientEnd.timeToString(false));
     				bufferedWriter.newLine();
-    				//for(int l = 0; l < floaterArray.size(); l++)
-    					//System.out.print(floaterArray.get(l).time + " ");
+    				
     				int start = subTimes(floaterStart, clientStart);
     				int end = start + hrsAvail;
-    				//System.out.println(start);
+    				System.out.println(start);
     				int tempResults = Integer.parseInt(results.get(j).getText());
     				for(int k = start; k < (end); k++){
     					floaterArray.remove(start);
@@ -308,8 +308,18 @@ public class Calc extends AbstractAction{
     				results.get(j).setText("" + tempResults);
     				if(start < (floaterArray.size()-start))
     					floaterStart = floaterArray.get(start+1);
-    				else
-    					floaterEnd = floaterArray.get(start-2);
+    				else{
+    					//if (floaterArray.isEmpty() == false){
+    						//if(start-2 > 0)
+    							//floaterEnd = floaterArray.get(start-2);
+    						//else if (start -1 > 0)
+    							//floaterEnd = floaterArray.get(start-1);
+    						//else 
+    							floaterEnd = floaterArray.get(start);
+    					//}
+    				}
+    				for(int l = 0; l < floaterArray.size(); l++)
+    					System.out.print(floaterArray.get(l).time + "! ");
     			}
     			
     			else if(clientStart.isLessThan(floaterStart) && clientEnd.isMoreThan(floaterEnd)){
@@ -333,9 +343,9 @@ public class Calc extends AbstractAction{
     				floaterStart = floaterArray.get(1);
     				results.get(j).setText("" + tempResults);
     				}
-    				//System.out.println();
-    				//for(int l = 0; l < floaterArray.size(); l++)
-    					//System.out.print(floaterArray.get(l).time + " ");
+    				System.out.println();
+    				for(int l = 0; l < floaterArray.size(); l++)
+    					System.out.print(floaterArray.get(l).time + "# ");
     				
     			}
     		}//end of else
@@ -394,7 +404,8 @@ public class Calc extends AbstractAction{
     
 
     
-    public int calcHours(String hrs){
+    public int calcHours(String hrs){    	
+    	
     	String[] hoursWrked = hrs.split("-");
     	WorkTime startTime = new WorkTime(hoursWrked[0]);
     	WorkTime endTime = new WorkTime(hoursWrked[1]);
@@ -407,6 +418,7 @@ public class Calc extends AbstractAction{
     }
     
     public int subTimes(WorkTime startTime, WorkTime endTime){
+
     	int total = endTime.hrs - startTime.hrs;
     	int mins = 0; 
     	if(endTime.mins >= startTime.mins)
@@ -415,7 +427,7 @@ public class Calc extends AbstractAction{
     		mins = (60 - startTime.mins) + endTime.mins;
     		total--;
     	}
-    	total = (total*4)+(mins/4);
+    	total = (total*4)+(mins/15);
     	//System.out.println(endTime.hrs + " - " + startTime.hrs);
     	return(total);
     }
