@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -226,9 +228,15 @@ public class Calc extends AbstractAction{
     		floaterArray.addAll(createTimeArray(floaterStart, floaterEnd));
     		
     		
-    		
     		for(int j = 0; j<clientNum; j++){
-    			int hrsAvail = 0;	
+    			int hrsAvail = 0, maxAvail = 0;	
+    			
+    			for(int client = 0; client<clientNum; client++){
+    				if(Integer.parseInt(results.get(client).getText()) > maxAvail )
+    					maxAvail = Integer.parseInt(results.get(client).getText());
+    			}
+    			
+    			
     			clientSplit = times.get(j).getText().split("-");
     			clientStart = new WorkTime(clientSplit[0]);
     			clientEnd = new WorkTime(clientSplit[1]);
@@ -255,26 +263,31 @@ public class Calc extends AbstractAction{
     						hrsAvail = Integer.parseInt(results.get(j).getText());
     				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today! between "  + 
     						floaterStart.timeToString(false) + " - " + clientEnd.timeToString(false));
-    				bufferedWriter.newLine();
+    				//bufferedWriter.newLine();
     				int tempResults = Integer.parseInt(results.get(j).getText());
+    //**				
+    				System.out.println();
+    				for(int l = 0; l < floaterArray.size(); l++)
+    					System.out.print(floaterArray.get(l).time + "^ ");
     				for(int k = 0; k < (hrsAvail); k++){	
     					floaterArray.remove(0);
     					tempResults--;
     				}
-    				floaterStart = floaterArray.get(1);
+    				floaterStart = floaterArray.get(0);
     				results.get(j).setText("" + tempResults);
+    				bufferedWriter.write(" - " + floaterStart.timeToString(false));
+    				bufferedWriter.newLine();
     				System.out.println();
     				for(int l = 0; l < floaterArray.size(); l++)
     					System.out.print(floaterArray.get(l).time + "^ ");
+    //**
     			}
     			
     			else if(clientStart.isLessThan(floaterEnd) && clientEnd.isMoreThan(floaterEnd) && clientStart.isMoreThan(floaterStart)){
     				hrsAvail = subTimes(clientStart, floaterEnd);
     				if(hrsAvail > Integer.parseInt(results.get(j).getText()))
     					hrsAvail = Integer.parseInt(results.get(j).getText());
-    				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today between "  + 
-    						clientStart.timeToString(false) + " - " + floaterEnd.timeToString(false));
-    				bufferedWriter.newLine();
+    				
     				
     				int length = floaterArray.size() - 1;
     				int tempResults = Integer.parseInt(results.get(j).getText());
@@ -282,11 +295,19 @@ public class Calc extends AbstractAction{
     					floaterArray.remove(floaterArray.size()-1);
     					tempResults--;
     				}
+    //**				
+    				System.out.println();
+    				for(int l = 0; l < floaterArray.size(); l++)
+    					System.out.print(floaterArray.get(l).time + "* ");
+    				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today between "  + 
+    						floaterArray.get(floaterArray.size()-1).timeToString(false) + " - " + floaterEnd.timeToString(false));
+    				bufferedWriter.newLine();
     				floaterEnd = floaterArray.get(floaterArray.size()-1);
     				results.get(j).setText("" + tempResults);
     				System.out.println();
     				for(int l = 0; l < floaterArray.size(); l++)
     					System.out.print(floaterArray.get(l).time + "* ");
+    //**				
     			}
     			
     			else if(clientStart.isMoreThan(floaterStart) && clientEnd.isLessThan(floaterEnd)){
@@ -299,15 +320,21 @@ public class Calc extends AbstractAction{
     				
     				int start = subTimes(floaterStart, clientStart);
     				int end = start + hrsAvail;
-    				System.out.println(start);
+    				System.out.println();
+    				System.out.println(start + "-" + end);
+    				System.out.println();
     				int tempResults = Integer.parseInt(results.get(j).getText());
+    //**				
+    				
+    				for(int l = 0; l < floaterArray.size(); l++)
+    					System.out.print(floaterArray.get(l).time + "! ");
     				for(int k = start; k < (end); k++){
     					floaterArray.remove(start);
     					tempResults--;
     				}
     				results.get(j).setText("" + tempResults);
     				if(start < (floaterArray.size()-start))
-    					floaterStart = floaterArray.get(start+1);
+    					floaterStart = floaterArray.get(start);
     				else{
     					//if (floaterArray.isEmpty() == false){
     						//if(start-2 > 0)
@@ -315,10 +342,12 @@ public class Calc extends AbstractAction{
     						//else if (start -1 > 0)
     							//floaterEnd = floaterArray.get(start-1);
     						//else 
-    							floaterEnd = floaterArray.get(start);
+    							floaterEnd = floaterArray.get(start-1);
     					//}
+    //**							
     				}
-    				for(int l = 0; l < floaterArray.size(); l++)
+    				System.out.println();
+    				for(int l = start; l < floaterArray.size()-(start-1); l++)
     					System.out.print(floaterArray.get(l).time + "! ");
     			}
     			
@@ -329,6 +358,10 @@ public class Calc extends AbstractAction{
     				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today between " + 
     						clientStart.timeToString(false) + " - " + clientEnd.timeToString(false));
     				bufferedWriter.newLine();
+    //**				
+    				System.out.println();
+    				for(int l = 0; l < floaterArray.size(); l++)
+    					System.out.print(floaterArray.get(l).time + "# ");
     				if(hrsAvail >= subTimes(floaterStart, floaterEnd)){
     					floaterArray.removeAll(floaterArray);
     					results.get(j).setText("" + subTimes(floaterStart, floaterEnd));
@@ -346,7 +379,7 @@ public class Calc extends AbstractAction{
     				System.out.println();
     				for(int l = 0; l < floaterArray.size(); l++)
     					System.out.print(floaterArray.get(l).time + "# ");
-    				
+    //**				
     			}
     		}//end of else
     	}// end of large if
@@ -461,6 +494,10 @@ public class NewClient extends AbstractAction{
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+    }
+    //needs to be an added implementation
+    public static ArrayList<JFormattedTextField> sortResults(ArrayList<JFormattedTextField> resultsToSort){
+    	return(resultsToSort);
     }
  
     public static void main(String[] args) {
