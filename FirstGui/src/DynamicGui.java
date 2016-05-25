@@ -123,6 +123,12 @@ public class DynamicGui extends JPanel{
     
 public class Calc extends AbstractAction{
     public void actionPerformed(ActionEvent e) {    
+    	
+    	/*
+    	 * 
+    	 * read in the floater hours and save them from floaters.txt
+    	 * 
+    	 */
     	Scanner fileScanner;
     	//InputStream input = DynamicGui.class.getResourceAsStream("/floaters.txt");
     	ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -142,6 +148,11 @@ public class Calc extends AbstractAction{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		/*
+    	 * 
+    	 * find the number of hours left for each client 
+    	 * 
+    	 */
 		int totalResults = 0; 
     	for(int i = 0; i<clientNum; i++){
     		
@@ -161,12 +172,18 @@ public class Calc extends AbstractAction{
     		}
     		
     	}
+    	/*
+    	 * 
+    	 * find hours for each client and output the schedule to a text file
+    	 * 
+    	 */
     	try {
     		int totalHrs = 0, hoursNeeded = 0;
     		for(int i = 0; i<floaterNum; i++)
     			totalHrs += floaterhrs.get(i);
     	if(totalResults < totalHrs )
     			hoursNeeded = totalHrs - totalResults;
+    	System.out.println(hoursNeeded);
     	//int temp = totalResults;
     	// The name of the file to open.
     	String fileName = "Floater_Hours.txt";
@@ -203,8 +220,8 @@ public class Calc extends AbstractAction{
     	// Note that write() does not automatically
     	// append a newline character.
     	if(hoursNeeded % floaterNum == 0)
-    		excess = (hoursNeeded/floaterNum);
-    	excess = (hoursNeeded/floaterNum)+1;
+    		excess = (hoursNeeded/(floaterNum+1));
+    	excess = (hoursNeeded/(floaterNum+1))+1;
     	if(hoursNeeded > 0)
     		bufferedWriter.write(hoursNeeded + " extra floater quaterhours are needed for today. One solution would be to subtract " +
     					excess + " hours from each floater.");
@@ -315,8 +332,7 @@ public class Calc extends AbstractAction{
     				if(hrsAvail > Integer.parseInt(results.get(j).getText()))
     					hrsAvail = Integer.parseInt(results.get(j).getText());
     				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today between " +  
-    						clientStart.timeToString(false) + " - " + clientEnd.timeToString(false));
-    				bufferedWriter.newLine();
+    						clientStart.timeToString(false));
     				
     				int start = subTimes(floaterStart, clientStart);
     				int end = start + hrsAvail;
@@ -346,6 +362,8 @@ public class Calc extends AbstractAction{
     					//}
     //**							
     				}
+    				bufferedWriter.write(" - " + floaterStart.timeToString(false));
+    				bufferedWriter.newLine();
     				System.out.println();
     				for(int l = start; l < floaterArray.size()-(start-1); l++)
     					System.out.print(floaterArray.get(l).time + "! ");

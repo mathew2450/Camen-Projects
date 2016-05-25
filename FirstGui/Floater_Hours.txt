@@ -1,15 +1,25 @@
 
 Christopher Gates 28 9:00-4:00
-	FirstName LastName1 for 10 quater-hours today! between 9:0 - 11:30
-	FirstName LastName2 for 4 quater-hours today! between 11:30 - 12:30
-	FirstName LastName3 for 12 quater-hours today between 12:0 - 15:45
+	FirstName LastName0 for 12 quater-hours today between 9:30 - 12:30
+	FirstName LastName1 for 8 quater-hours today! between 12:30 - 14:0
+	FirstName LastName2 for 2 quater-hours today! between 14:0 - 14:30
+	FirstName LastName3 for 0 quater-hours today! between 14:30 - 14:30
+	FirstName LastName4 for 0 quater-hours today! between 14:30 - 14:30
+	FirstName LastName5 for 0 quater-hours today! between 14:30 - 14:30
+	FirstName LastName6 for 0 quater-hours today! between 14:30 - 14:30
+	FirstName LastName7 for 0 quater-hours today! between 14:30 - 14:30
 Mathew Cross 20 8:00-1:00
-	FirstName LastName2 for 12 quater-hours today between 8:30 - 12:30
-	FirstName LastName4 for 2 quater-hours today! between 11:30 - 11:30
-	FirstName LastName5 for 6 quater-hours today between 11:0 - 11:30
+	FirstName LastName1 for 4 quater-hours today between 12:0 - 13:0
+	FirstName LastName2 for 10 quater-hours today between 9:30 - 12:0
 Nathan Cross 30 8:45-4:15
-	FirstName LastName4 for 8 quater-hours today between 10:0 - 12:0
-	FirstName LastName5 for 6 quater-hours today! between 12:0 - 12:15
+	FirstName LastName3 for 12 quater-hours today between 9:30 - 12:30
+	FirstName LastName4 for 8 quater-hours today! between 12:30 - 13:45
+	FirstName LastName5 for 3 quater-hours today! between 13:45 - 14:30
+	FirstName LastName6 for 0 quater-hours today! between 14:30 - 14:30
+	FirstName LastName7 for 0 quater-hours today! between 14:30 - 14:30
 
-There are 14 quater-hours left to be scheduled
-	There are 14 quater-hours left for FirstName LastName4
+There are 37 quater-hours left to be scheduled
+	There are 4 quater-hours left for FirstName LastName4
+	There are 9 quater-hours left for FirstName LastName5
+	There are 12 quater-hours left for FirstName LastName6
+	There are 12 quater-hours left for FirstName LastName7
