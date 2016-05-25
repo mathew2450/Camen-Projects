@@ -262,7 +262,7 @@ public class Calc extends AbstractAction{
     				if(hrsAvail > Integer.parseInt(results.get(j).getText()))
     						hrsAvail = Integer.parseInt(results.get(j).getText());
     				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today! between "  + 
-    						floaterStart.timeToString(false) + " - " + clientEnd.timeToString(false));
+    						floaterStart.timeToString(false));
     				//bufferedWriter.newLine();
     				int tempResults = Integer.parseInt(results.get(j).getText());
     //**				
@@ -356,8 +356,8 @@ public class Calc extends AbstractAction{
     				if(subTimes(floaterStart, floaterEnd) < hrsAvail)
     					hrsAvail = subTimes(floaterStart, floaterEnd);
     				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today between " + 
-    						clientStart.timeToString(false) + " - " + clientEnd.timeToString(false));
-    				bufferedWriter.newLine();
+    						clientStart.timeToString(false));
+    				//bufferedWriter.newLine();
     //**				
     				System.out.println();
     				for(int l = 0; l < floaterArray.size(); l++)
@@ -379,6 +379,8 @@ public class Calc extends AbstractAction{
     				System.out.println();
     				for(int l = 0; l < floaterArray.size(); l++)
     					System.out.print(floaterArray.get(l).time + "# ");
+    				bufferedWriter.write(" - " + floaterStart.timeToString(false));
+    				bufferedWriter.newLine();
     //**				
     			}
     		}//end of else

@@ -1,15 +1,15 @@
 
 Christopher Gates 28 9:00-4:00
-	FirstName LastName1 for 10 quater-hours today! between 9:0 - 12:30 - 11:30
-	FirstName LastName2 for 4 quater-hours today! between 11:30 - 12:30 - 12:30
-	FirstName LastName3 for 12 quater-hours today between 12:0 - 17:0
+	FirstName LastName1 for 10 quater-hours today! between 9:0 - 11:30
+	FirstName LastName2 for 4 quater-hours today! between 11:30 - 12:30
+	FirstName LastName3 for 12 quater-hours today between 12:0 - 15:45
 Mathew Cross 20 8:00-1:00
 	FirstName LastName2 for 12 quater-hours today between 8:30 - 12:30
-	FirstName LastName4 for 2 quater-hours today! between 11:30 - 12:0 - 11:30
-	FirstName LastName5 for 6 quater-hours today between 11:0 - 15:0
+	FirstName LastName4 for 2 quater-hours today! between 11:30 - 11:30
+	FirstName LastName5 for 6 quater-hours today between 11:0 - 11:30
 Nathan Cross 30 8:45-4:15
 	FirstName LastName4 for 8 quater-hours today between 10:0 - 12:0
-	FirstName LastName5 for 6 quater-hours today! between 12:0 - 15:0 - 12:15
+	FirstName LastName5 for 6 quater-hours today! between 12:0 - 12:15
 
 There are 14 quater-hours left to be scheduled
 	There are 14 quater-hours left for FirstName LastName4
