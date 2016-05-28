@@ -22,6 +22,7 @@ public class DynamicGui extends JPanel{
 	int clientNum = 0, floaterNum = 0;
 	JPanel mainPanel = new JPanel();
 	 ArrayList<JCheckBox> boxes = new ArrayList<JCheckBox>();
+	 ArrayList<JCheckBox> hrLimit = new ArrayList<JCheckBox>();
 	 ArrayList<JFormattedTextField> times= new ArrayList<JFormattedTextField>();
 	 ArrayList<JFormattedTextField> clientNames= new ArrayList<JFormattedTextField>();
 	 ArrayList<JFormattedTextField> names1= new ArrayList<JFormattedTextField>();
@@ -108,9 +109,10 @@ public class DynamicGui extends JPanel{
         minipanel.add(new JLabel("Hours Worked:"));
         hours3.add(clientNum, new JFormattedTextField("12:30-12:30"));
         minipanel.add(hours3.get(clientNum));
-        //minipanel.add(new JLabel("Hours Left For Billing:"));
         results.add(clientNum, new JFormattedTextField("0"));
         results.get(clientNum).setEditable(false);
+        hrLimit.add(clientNum, new JCheckBox("Limit to 7 hrs"));
+        minipanel.add(hrLimit.get(clientNum));
         //minipanel.add(results.get(clientNum));
    
         pane.setBorder(BorderFactory.createTitledBorder(title));
@@ -153,7 +155,7 @@ public class Calc extends AbstractAction{
     	 * find the number of hours left for each client 
     	 * 
     	 */
-		int totalResults = 0; 
+		int totalResults = 0, hoursLeft = 0; 
     	for(int i = 0; i<clientNum; i++){
     		
     		//System.out.println(boxes.get(i).isSelected());
@@ -164,7 +166,12 @@ public class Calc extends AbstractAction{
     			int hrs1 = calcHours(hours1.get(i).getText());
     			int hrs2 = calcHours(hours2.get(i).getText());
     			int hrs3 = calcHours(hours3.get(i).getText());
-    			int hoursLeft = 32 - (hrs1 + hrs2 + hrs3);
+    			if(hrLimit.get(i).isSelected()){
+    				hoursLeft = 28 - (hrs1 + hrs2 + hrs3);
+    				System.out.println("Hours limited for Client:" + i);
+    			}
+    			else
+    				hoursLeft = 32 - (hrs1 + hrs2 + hrs3);
     			totalResults += hoursLeft;
     			String hoursUsed = "" + (hoursLeft);
     			//System.out.println(hoursLeft);
