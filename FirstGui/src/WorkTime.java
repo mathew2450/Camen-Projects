@@ -19,6 +19,13 @@ public class WorkTime {
 		return;
 	}
 	
+	public boolean isEqualTo(WorkTime ct){
+		if(this.hrs == ct.hrs && this.mins == ct.mins)
+			return(true);
+		else
+			return(false);
+	}
+	
 	public boolean isLessThan(WorkTime t){
 		//System.out.println(this.hrs + " is less than " + t.hrs);
 		if(t.hrs > this.hrs)
@@ -38,7 +45,7 @@ public class WorkTime {
 			return(false);
 	}
 	
-	public WorkTime addQuaterHour(){
+	public WorkTime addquarterHour(){
 		if(this.mins + 15 == 60){
 			this.hrs++;
 			this.mins = 00;

@@ -10,8 +10,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -22,6 +20,7 @@ public class DynamicGui extends JPanel{
 	int clientNum = 0, floaterNum = 0;
 	JPanel mainPanel = new JPanel();
 	 ArrayList<JCheckBox> boxes = new ArrayList<JCheckBox>();
+	 ArrayList<JCheckBox> hrLimit = new ArrayList<JCheckBox>();
 	 ArrayList<JFormattedTextField> times= new ArrayList<JFormattedTextField>();
 	 ArrayList<JFormattedTextField> clientNames= new ArrayList<JFormattedTextField>();
 	 ArrayList<JFormattedTextField> names1= new ArrayList<JFormattedTextField>();
@@ -36,6 +35,9 @@ public class DynamicGui extends JPanel{
 	 ArrayList<String> floaterTimes = new ArrayList<String>();
 	 Action calc;
 	 Action newClient;
+	 /*
+	  * initiates the GUI
+	  */
     public DynamicGui() {
     	
         super(new BorderLayout());
@@ -65,7 +67,10 @@ public class DynamicGui extends JPanel{
         add(calculate, BorderLayout.SOUTH);
         
     }
- 
+    /*
+     * creates each of the pieces for the client information to be input. Saves each piece to its relative arraylist to be
+     * read from later 
+     */
     protected JPanel createClientInfoPanel() {
         JPanel pane = new JPanel();
         String title = "Client " + (clientNum+1);
@@ -108,9 +113,10 @@ public class DynamicGui extends JPanel{
         minipanel.add(new JLabel("Hours Worked:"));
         hours3.add(clientNum, new JFormattedTextField("12:30-12:30"));
         minipanel.add(hours3.get(clientNum));
-        //minipanel.add(new JLabel("Hours Left For Billing:"));
         results.add(clientNum, new JFormattedTextField("0"));
         results.get(clientNum).setEditable(false);
+        hrLimit.add(clientNum, new JCheckBox("Limit to 7 hrs"));
+        minipanel.add(hrLimit.get(clientNum));
         //minipanel.add(results.get(clientNum));
    
         pane.setBorder(BorderFactory.createTitledBorder(title));
@@ -120,9 +126,17 @@ public class DynamicGui extends JPanel{
         pane.revalidate();
         return pane;
     }
-    
+ /*
+  * when the button is clicked, the information is read from the GUI and the input files and the schedule is created
+  * by matching quarter hours. Then the results are output to a text file.  
+  */
 public class Calc extends AbstractAction{
     public void actionPerformed(ActionEvent e) {    
+    	/*
+    	 * 
+    	 * read in the floater hours and save them from floaters.txt
+    	 * 
+    	 */
     	Scanner fileScanner;
     	//InputStream input = DynamicGui.class.getResourceAsStream("/floaters.txt");
     	ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -142,7 +156,12 @@ public class Calc extends AbstractAction{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		int totalResults = 0; 
+		/*
+    	 * 
+    	 * find the number of hours left for each client 
+    	 * 
+    	 */
+		int totalResults = 0, hoursLeft = 0; 
     	for(int i = 0; i<clientNum; i++){
     		
     		//System.out.println(boxes.get(i).isSelected());
@@ -153,7 +172,12 @@ public class Calc extends AbstractAction{
     			int hrs1 = calcHours(hours1.get(i).getText());
     			int hrs2 = calcHours(hours2.get(i).getText());
     			int hrs3 = calcHours(hours3.get(i).getText());
-    			int hoursLeft = 32 - (hrs1 + hrs2 + hrs3);
+    			if(hrLimit.get(i).isSelected()){
+    				hoursLeft = 28 - (hrs1 + hrs2 + hrs3);
+    				//System.out.println("Hours limited for Client:" + i);
+    			}
+    			else
+    				hoursLeft = 32 - (hrs1 + hrs2 + hrs3);
     			totalResults += hoursLeft;
     			String hoursUsed = "" + (hoursLeft);
     			//System.out.println(hoursLeft);
@@ -161,12 +185,18 @@ public class Calc extends AbstractAction{
     		}
     		
     	}
+    	/*
+    	 * 
+    	 * find hours for each client and output the schedule to a text file
+    	 * 
+    	 */
     	try {
     		int totalHrs = 0, hoursNeeded = 0;
     		for(int i = 0; i<floaterNum; i++)
     			totalHrs += floaterhrs.get(i);
     	if(totalResults < totalHrs )
     			hoursNeeded = totalHrs - totalResults;
+    	//System.out.println(hoursNeeded);
     	//int temp = totalResults;
     	// The name of the file to open.
     	String fileName = "Floater_Hours.txt";
@@ -203,19 +233,23 @@ public class Calc extends AbstractAction{
     	// Note that write() does not automatically
     	// append a newline character.
     	if(hoursNeeded % floaterNum == 0)
-    		excess = (hoursNeeded/floaterNum);
-    	excess = (hoursNeeded/floaterNum)+1;
+    		excess = (hoursNeeded/(floaterNum+1));
+    	excess = (hoursNeeded/(floaterNum+1))+1;
     	if(hoursNeeded > 0)
-    		bufferedWriter.write(hoursNeeded + " extra floater quaterhours are needed for today. One solution would be to subtract " +
+    		bufferedWriter.write(hoursNeeded + " extra floater quarterhours are needed for today. One solution would be to subtract " +
     					excess + " hours from each floater.");
     	bufferedWriter.newLine();
-    	    	
+    	/*
+    	 * Go through and make each floater a time array for their hours, create time arrays for each client
+    	 * Match each floater time to a client time until there are no more hours available
+    	*/
     	WorkTime floaterStart, floaterEnd, clientStart, clientEnd;
     	String[] floaterSplit, clientSplit;
-    	ArrayList<WorkTime> floaterArray = new ArrayList<WorkTime>();//clientArray
+    	ArrayList<WorkTime> floaterArray = new ArrayList<WorkTime>();//floatertimearray
+    	ArrayList<WorkTime> clientArray = new ArrayList<WorkTime>();//clientArray
     	for(int i = 0; i<floaters.size(); i++){
-    		
-    		int temp = floaterhrs.get(i);
+    		System.out.println("floater :" + i);
+    		//int temp = floaterhrs.get(i);
     		bufferedWriter.write(floaters.get(i) + " " + floaterhrs.get(i) + " " + floaterTimes.get(i));
     		bufferedWriter.newLine();
     		floaterSplit = floaterTimes.get(i).split("-");
@@ -225,169 +259,72 @@ public class Calc extends AbstractAction{
     			floaterEnd.setHrs(floaterEnd.hrs+12);
     		if(floaterStart.hrs < 6)
     			floaterStart.setHrs(floaterStart.hrs+12);
+    		floaterArray.removeAll(floaterArray);
     		floaterArray.addAll(createTimeArray(floaterStart, floaterEnd));
     		
     		
     		for(int j = 0; j<clientNum; j++){
-    			int hrsAvail = 0, maxAvail = 0;	
-    			
-    			for(int client = 0; client<clientNum; client++){
-    				if(Integer.parseInt(results.get(client).getText()) > maxAvail )
-    					maxAvail = Integer.parseInt(results.get(client).getText());
-    			}
-    			
-    			
-    			clientSplit = times.get(j).getText().split("-");
-    			clientStart = new WorkTime(clientSplit[0]);
-    			clientEnd = new WorkTime(clientSplit[1]);
-    			if(clientEnd.hrs < 9)
-    				clientEnd.setHrs(clientEnd.hrs+12);
-    			if(clientStart.hrs < 6)
-    				clientStart.setHrs(clientStart.hrs+12);
-    			//clientArray = createTimeArray(clientStart, clientEnd);
-    	if(Integer.parseInt(results.get(j).getText()) != 0){	
-    		if(temp == 0){
-    				j = clientNum;
-    				}
-    		else{
-    			
-    			if(clientStart.isLessThan(floaterStart) && clientEnd.isLessThan(floaterStart))
-    				System.out.println(clientNames.get(j).getText() + " starts and leaves before floater");
-    			
-    			else if(clientStart.isMoreThan(floaterEnd) && clientEnd.isMoreThan(floaterEnd))
-    				System.out.println(clientNames.get(j).getText() + " arrives after floater");
-    			
-    			else if(clientStart.isLessThan(floaterStart) && clientEnd.isMoreThan(floaterStart) && clientEnd.isLessThan(floaterEnd)){
-    				hrsAvail = subTimes(floaterStart, clientEnd);
-    				if(hrsAvail > Integer.parseInt(results.get(j).getText()))
-    						hrsAvail = Integer.parseInt(results.get(j).getText());
-    				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today! between "  + 
-    						floaterStart.timeToString(false));
-    				//bufferedWriter.newLine();
-    				int tempResults = Integer.parseInt(results.get(j).getText());
-    //**				
-    				System.out.println();
-    				for(int l = 0; l < floaterArray.size(); l++)
-    					System.out.print(floaterArray.get(l).time + "^ ");
-    				for(int k = 0; k < (hrsAvail); k++){	
-    					floaterArray.remove(0);
-    					tempResults--;
-    				}
-    				floaterStart = floaterArray.get(0);
-    				results.get(j).setText("" + tempResults);
-    				bufferedWriter.write(" - " + floaterStart.timeToString(false));
-    				bufferedWriter.newLine();
-    				System.out.println();
-    				for(int l = 0; l < floaterArray.size(); l++)
-    					System.out.print(floaterArray.get(l).time + "^ ");
-    //**
-    			}
-    			
-    			else if(clientStart.isLessThan(floaterEnd) && clientEnd.isMoreThan(floaterEnd) && clientStart.isMoreThan(floaterStart)){
-    				hrsAvail = subTimes(clientStart, floaterEnd);
-    				if(hrsAvail > Integer.parseInt(results.get(j).getText()))
-    					hrsAvail = Integer.parseInt(results.get(j).getText());
-    				
-    				
-    				int length = floaterArray.size() - 1;
-    				int tempResults = Integer.parseInt(results.get(j).getText());
-    				for(int k = length; k > (length - hrsAvail); k--){
-    					floaterArray.remove(floaterArray.size()-1);
-    					tempResults--;
-    				}
-    //**				
-    				System.out.println();
-    				for(int l = 0; l < floaterArray.size(); l++)
-    					System.out.print(floaterArray.get(l).time + "* ");
-    				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today between "  + 
-    						floaterArray.get(floaterArray.size()-1).timeToString(false) + " - " + floaterEnd.timeToString(false));
-    				bufferedWriter.newLine();
-    				floaterEnd = floaterArray.get(floaterArray.size()-1);
-    				results.get(j).setText("" + tempResults);
-    				System.out.println();
-    				for(int l = 0; l < floaterArray.size(); l++)
-    					System.out.print(floaterArray.get(l).time + "* ");
-    //**				
-    			}
-    			
-    			else if(clientStart.isMoreThan(floaterStart) && clientEnd.isLessThan(floaterEnd)){
-    				hrsAvail = subTimes(clientStart, clientEnd);
-    				if(hrsAvail > Integer.parseInt(results.get(j).getText()))
-    					hrsAvail = Integer.parseInt(results.get(j).getText());
-    				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today between " +  
-    						clientStart.timeToString(false) + " - " + clientEnd.timeToString(false));
-    				bufferedWriter.newLine();
-    				
-    				int start = subTimes(floaterStart, clientStart);
-    				int end = start + hrsAvail;
-    				System.out.println();
-    				System.out.println(start + "-" + end);
-    				System.out.println();
-    				int tempResults = Integer.parseInt(results.get(j).getText());
-    //**				
-    				
-    				for(int l = 0; l < floaterArray.size(); l++)
-    					System.out.print(floaterArray.get(l).time + "! ");
-    				for(int k = start; k < (end); k++){
-    					floaterArray.remove(start);
-    					tempResults--;
-    				}
-    				results.get(j).setText("" + tempResults);
-    				if(start < (floaterArray.size()-start))
-    					floaterStart = floaterArray.get(start);
-    				else{
-    					//if (floaterArray.isEmpty() == false){
-    						//if(start-2 > 0)
-    							//floaterEnd = floaterArray.get(start-2);
-    						//else if (start -1 > 0)
-    							//floaterEnd = floaterArray.get(start-1);
-    						//else 
-    							floaterEnd = floaterArray.get(start-1);
-    					//}
-    //**							
-    				}
-    				System.out.println();
-    				for(int l = start; l < floaterArray.size()-(start-1); l++)
-    					System.out.print(floaterArray.get(l).time + "! ");
-    			}
-    			
-    			else if(clientStart.isLessThan(floaterStart) && clientEnd.isMoreThan(floaterEnd)){
-    				hrsAvail = Integer.parseInt(results.get(j).getText());
-    				if(subTimes(floaterStart, floaterEnd) < hrsAvail)
-    					hrsAvail = subTimes(floaterStart, floaterEnd);
-    				bufferedWriter.write("	" + clientNames.get(j).getText() + " for " + hrsAvail + " quater-hours today between " + 
-    						clientStart.timeToString(false));
-    				//bufferedWriter.newLine();
-    //**				
-    				System.out.println();
-    				for(int l = 0; l < floaterArray.size(); l++)
-    					System.out.print(floaterArray.get(l).time + "# ");
-    				if(hrsAvail >= subTimes(floaterStart, floaterEnd)){
-    					floaterArray.removeAll(floaterArray);
-    					results.get(j).setText("" + subTimes(floaterStart, floaterEnd));
-    					j = clientNum;
-    				}
-    				else{
-    					int tempResults = Integer.parseInt(results.get(j).getText());
-    				for(int k = 0; k < (hrsAvail); k++){	
-    					floaterArray.remove(0);
-    					tempResults--;
-    				}
-    				floaterStart = floaterArray.get(1);
-    				results.get(j).setText("" + tempResults);
-    				}
-    				System.out.println();
-    				for(int l = 0; l < floaterArray.size(); l++)
-    					System.out.print(floaterArray.get(l).time + "# ");
-    				bufferedWriter.write(" - " + floaterStart.timeToString(false));
-    				bufferedWriter.newLine();
-    //**				
-    			}
-    		}//end of else
-    	}// end of large if
-    }//end of client loop
-    		floaterArray.removeAll(floaterArray);
-   }// end of floater loop
+    			for(int k = 0; k < floaterArray.size()-1; k++)
+    				System.out.print(floaterArray.get(k).timeToString(false));
+    			//System.out.println();
+    			//System.out.println(j + "has this many quarter hours left: " + results.get(j).getText());
+    			int hrsAvail = 0, timeWithClient = 0;	//maxAvail = 0, 
+    			clientSplit = times.get(i).getText().split("-");
+        		clientStart = new WorkTime(clientSplit[0]);
+        		clientEnd = new WorkTime(clientSplit[1]);
+        		if(clientEnd.hrs <= 9)
+        			clientEnd.setHrs(clientEnd.hrs+12);
+        		if(clientStart.hrs < 6)
+        			clientStart.setHrs(clientStart.hrs+12);
+        		clientArray.addAll(createTimeArray(clientStart, clientEnd));
+        		hrsAvail = Integer.parseInt(results.get(j).getText());
+        		if(hrsAvail > 0 && (floaterArray.size()-1) > 0){
+        			floaterTimeLoop:
+        			for(int f = 0; f < floaterArray.size()-1; f++){
+        				System.out.println(f);
+        				clientTimeLoop:
+        				for(int c = 0; c < clientArray.size()-1; c++){
+        					//System.out.println(f + " " + c);
+        					System.out.println(floaterArray.get(f).time + " compared to " + clientArray.get(c).time);
+        					if(floaterArray.get(f).isEqualTo(clientArray.get(c))){
+        						System.out.println("its equal! " + floaterArray.get(f).timeToString(false) + " to " + clientArray.get(c).timeToString(false));
+        						timeWithClient++;
+        						if(timeWithClient == 1){
+        							bufferedWriter.write("	" + clientNames.get(j).getText() + " between " + floaterArray.get(f).timeToString(false));
+        						}//end if start time with client
+        						floaterEnd = floaterArray.get(f);
+        						floaterArray.remove(f);
+        						f--;
+        						if(f<0)
+        							f=0;
+        						if(floaterArray.size() == 0){
+        							System.out.println("no more time for floater");
+        							break clientTimeLoop;
+        						}
+        						hrsAvail--;
+        						results.get(j).setText("" + hrsAvail);				
+        						//c = clientArray.size()-1;
+        						if(hrsAvail == 0){
+        							System.out.println("no more hours for client " + j);
+        							break floaterTimeLoop; 
+        						}//end if avail hrs is zero	
+        					}//end if equal times
+        					
+        				}//for each client time
+        				
+        			}//for each floater time
+        		if(timeWithClient > 0){
+    							bufferedWriter.write(" and " + floaterEnd.timeToString(false) + " for " + timeWithClient + " quarter Hours!");
+    							bufferedWriter.newLine();
+    							System.out.println("time between floater and client found");
+    							//break floaterTimeLoop;
+        			}//end if floater array has been fully traversed or hrsAvail equals 0		
+        		}//end if results is not 0
+    		}//end client for loop
+    		
+    	}//end floater for loop
+    	
+    	
     	int availHrs = 0;
     	for(int i = 0; i < results.size(); i++){
     		availHrs += Integer.parseInt(results.get(i).getText());
@@ -395,11 +332,11 @@ public class Calc extends AbstractAction{
     	}
     	bufferedWriter.newLine();
     	if(availHrs > 0){
-    		bufferedWriter.write("There are " + availHrs + " quater-hours left to be scheduled");
+    		bufferedWriter.write("There are " + availHrs + " quarter-hours left to be scheduled");
     		bufferedWriter.newLine();
     		for(int i = 0; i < results.size(); i++){
         		if(Integer.parseInt(results.get(i).getText()) > 0){
-        			bufferedWriter.write("	There are " + results.get(i).getText() + " quater-hours left for " + clientNames.get(i).getText());
+        			bufferedWriter.write("	There are " + results.get(i).getText() + " quarter-hours left for " + clientNames.get(i).getText());
         			bufferedWriter.newLine();
         		}
     		}
@@ -413,9 +350,10 @@ public class Calc extends AbstractAction{
     		            // Or we could just do this:
     		            // ex.printStackTrace();
     		        }
-    	
     }
-    
+    /*
+     * creates a time array given the start and end times
+     */
     public ArrayList<WorkTime> createTimeArray(WorkTime st, WorkTime et){
 
     	WorkTime tempst = new WorkTime(st.time);
@@ -426,7 +364,7 @@ public class Calc extends AbstractAction{
 		//System.out.printf(timeWorked.get(0).time +  " ");
 		do{
 			
-			WorkTime temp = new WorkTime(tempst.addQuaterHour().time);
+			WorkTime temp = new WorkTime(tempst.addquarterHour().time);
 			timeWorked.add(temp);
 			//System.out.printf(temp.time + " ");
 		}
@@ -438,7 +376,9 @@ public class Calc extends AbstractAction{
 	}
     
 
-    
+    /*
+     * calculates the number of quarter hours for the given time frame
+     */
     public int calcHours(String hrs){    	
     	
     	String[] hoursWrked = hrs.split("-");
@@ -452,6 +392,9 @@ public class Calc extends AbstractAction{
     	return(total);
     }
     
+    /*
+     * subtracts the start time from the end time to determine number of quarter hours
+     */
     public int subTimes(WorkTime startTime, WorkTime endTime){
 
     	int total = endTime.hrs - startTime.hrs;
@@ -469,7 +412,9 @@ public class Calc extends AbstractAction{
 }
 
 
-    
+    /*
+     * Adds a new panel for client information
+     */
 public class NewClient extends AbstractAction{
     public void actionPerformed(ActionEvent e) {
     	mainPanel.add(createClientInfoPanel());
@@ -478,33 +423,24 @@ public class NewClient extends AbstractAction{
     }
     }
  
-    /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event-dispatching thread.
+    /*
+     * Create the GUI and show it. 
      */
     private static void createAndShowGUI() {
-        //Create and set up the window.
         JFrame frame = new JFrame("Floater Hour Computer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
-        //Create and set up the content pane.
         DynamicGui newContentPane = new DynamicGui();
-        newContentPane.setOpaque(true); //content panes must be opaque
+        newContentPane.setOpaque(true);
         frame.setContentPane(newContentPane);
  
-        //Display the window.
         frame.pack();
         frame.setVisible(true);
     }
-    //needs to be an added implementation
-    public static ArrayList<JFormattedTextField> sortResults(ArrayList<JFormattedTextField> resultsToSort){
-    	return(resultsToSort);
-    }
- 
+    /*
+     * set up to be runnable and start the code
+     */
     public static void main(String[] args) {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
