@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ComboBoxModel;
+
 
 
 @SuppressWarnings("serial")
@@ -29,12 +31,18 @@ public class DynamicGui extends JPanel{
 	 ArrayList<JFormattedTextField> hours1= new ArrayList<JFormattedTextField>();
 	 ArrayList<JFormattedTextField> hours2= new ArrayList<JFormattedTextField>();
 	 ArrayList<JFormattedTextField> hours3= new ArrayList<JFormattedTextField>();
+	 ArrayList<JComboBox> levels1= new ArrayList<JComboBox>();
+	 ArrayList<JComboBox> levels2= new ArrayList<JComboBox>();
+	 ArrayList<JComboBox> levels3= new ArrayList<JComboBox>();
 	 ArrayList<JFormattedTextField> results= new ArrayList<JFormattedTextField>();
 	 ArrayList<String> floaters = new ArrayList<String>();  
+	 ArrayList<Integer> floaterlvl = new ArrayList<Integer>();
 	 ArrayList<Integer> floaterhrs = new ArrayList<Integer>();
 	 ArrayList<String> floaterTimes = new ArrayList<String>();
 	 Action calc;
 	 Action newClient;
+	 String[] levels = new String[]{"0","1","2","3"};
+	 JComboBox<String> levelSelect;
 	 /*
 	  * initiates the GUI
 	  */
@@ -76,7 +84,7 @@ public class DynamicGui extends JPanel{
         String title = "Client " + (clientNum+1);
  
         JComponent minipanel = new JPanel();
-        Dimension size = new Dimension(1500, 50);
+        Dimension size = new Dimension(1500, 60);
         minipanel.setAlignmentX(LEFT_ALIGNMENT);
         minipanel.setMaximumSize(size);
         minipanel.setPreferredSize(size);
@@ -103,16 +111,25 @@ public class DynamicGui extends JPanel{
         minipanel.add(new JLabel("Hours Worked:"));
         hours1.add(clientNum, new JFormattedTextField("9:30-2:30"));
         minipanel.add(hours1.get(clientNum));
+        minipanel.add(new JLabel("Level:"));
+        levels1.add(clientNum, levelSelect = new JComboBox<String>(levels));
+        minipanel.add(levels1.get(clientNum));
         names2.add(clientNum, new JFormattedTextField("FirstName LastName"));
         minipanel.add(names2.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
         hours2.add(clientNum, new JFormattedTextField("12:30-12:30"));
         minipanel.add(hours2.get(clientNum));
+        minipanel.add(new JLabel("Level:"));
+        levels2.add(clientNum, levelSelect = new JComboBox<String>(levels));
+        minipanel.add(levels2.get(clientNum));
         names3.add(clientNum, new JFormattedTextField("FirstName LastName"));
         minipanel.add(names3.get(clientNum));
         minipanel.add(new JLabel("Hours Worked:"));
         hours3.add(clientNum, new JFormattedTextField("12:30-12:30"));
         minipanel.add(hours3.get(clientNum));
+        minipanel.add(new JLabel("Level:"));
+        levels3.add(clientNum, levelSelect = new JComboBox<String>(levels));
+        minipanel.add(levels3.get(clientNum));
         results.add(clientNum, new JFormattedTextField("0"));
         results.get(clientNum).setEditable(false);
         hrLimit.add(clientNum, new JCheckBox("Limit to 7 hrs"));
@@ -149,6 +166,7 @@ public class Calc extends AbstractAction{
     	while (fileScanner.hasNext()){
     	   floaters.add(fileScanner.next()+" "+fileScanner.next());
     	   floaterTimes.add(fileScanner.next());
+    	   floaterlvl.add(fileScanner.nextInt());
     	   floaterhrs.add(calcHours(floaterTimes.get(floaterNum))); 	
     	   floaterNum++;
     	}
@@ -247,10 +265,10 @@ public class Calc extends AbstractAction{
     	String[] floaterSplit, clientSplit;
     	ArrayList<WorkTime> floaterArray = new ArrayList<WorkTime>();//floatertimearray
     	ArrayList<WorkTime> clientArray = new ArrayList<WorkTime>();//clientArray
-    	for(int i = 0; i<floaters.size(); i++){
+    	for(int i = 0; i<floaters.size()-1; i++){
     		System.out.println("floater :" + i);
     		//int temp = floaterhrs.get(i);
-    		bufferedWriter.write(floaters.get(i) + " " + floaterhrs.get(i) + " " + floaterTimes.get(i));
+    		bufferedWriter.write(floaters.get(i) + " " + floaterhrs.get(i) + " " + floaterTimes.get(i) + " Level:" + floaterlvl.get(i));
     		bufferedWriter.newLine();
     		floaterSplit = floaterTimes.get(i).split("-");
     		floaterStart = new WorkTime(floaterSplit[0]);
