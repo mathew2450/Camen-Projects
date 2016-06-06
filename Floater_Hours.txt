@@ -1,0 +1,15 @@
+
+Christopher Gates 26 9:00-3:30
+	FirstName LastName0 between 9:30 and 12:15 for 12 quarter Hours!
+	FirstName LastName1 between 12:30 and 14:30 for 9 quarter Hours!
+Mathew Cross 20 9:30-2:30
+	FirstName LastName1 between 9:30 and 10:0 for 3 quarter Hours!
+	FirstName LastName2 between 10:15 and 13:0 for 12 quarter Hours!
+	FirstName LastName3 between 13:15 and 14:30 for 6 quarter Hours!
+Kelly Burnkick 12 10:30-1:30
+	FirstName LastName3 between 10:30 and 11:45 for 6 quarter Hours!
+	FirstName LastName4 between 12:0 and 13:30 for 7 quarter Hours!
+
+There are 17 quarter-hours left to be scheduled
+	There are 5 quarter-hours left for FirstName LastName4
+	There are 12 quarter-hours left for FirstName LastName5

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.ComboBoxModel;
+import javax.swing.UnsupportedLookAndFeelException;
 
 
 
@@ -31,9 +31,12 @@ public class DynamicGui extends JPanel{
 	 ArrayList<JFormattedTextField> hours1= new ArrayList<JFormattedTextField>();
 	 ArrayList<JFormattedTextField> hours2= new ArrayList<JFormattedTextField>();
 	 ArrayList<JFormattedTextField> hours3= new ArrayList<JFormattedTextField>();
-	 ArrayList<JComboBox> levels1= new ArrayList<JComboBox>();
-	 ArrayList<JComboBox> levels2= new ArrayList<JComboBox>();
-	 ArrayList<JComboBox> levels3= new ArrayList<JComboBox>();
+	 @SuppressWarnings("rawtypes")
+	ArrayList<JComboBox> levels1= new ArrayList<JComboBox>();
+	 @SuppressWarnings("rawtypes")
+	ArrayList<JComboBox> levels2= new ArrayList<JComboBox>();
+	 @SuppressWarnings("rawtypes")
+	ArrayList<JComboBox> levels3= new ArrayList<JComboBox>();
 	 ArrayList<JFormattedTextField> results= new ArrayList<JFormattedTextField>();
 	 ArrayList<String> floaters = new ArrayList<String>();  
 	 ArrayList<Integer> floaterlvl = new ArrayList<Integer>();
@@ -84,7 +87,7 @@ public class DynamicGui extends JPanel{
         String title = "Client " + (clientNum+1);
  
         JComponent minipanel = new JPanel();
-        Dimension size = new Dimension(1500, 60);
+        Dimension size = new Dimension(1500, 70);
         minipanel.setAlignmentX(LEFT_ALIGNMENT);
         minipanel.setMaximumSize(size);
         minipanel.setPreferredSize(size);
@@ -459,6 +462,21 @@ public class NewClient extends AbstractAction{
      * set up to be runnable and start the code
      */
     public static void main(String[] args) {
+    	try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
